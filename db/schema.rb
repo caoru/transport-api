@@ -79,6 +79,20 @@ ActiveRecord::Schema.define(version: 20170904081424) do
     t.index ["name"], name: "index_manufacturers_on_name", unique: true
   end
 
+  create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_roles_on_name", unique: true
+  end
+
+  create_table "transport_states", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_transport_states_on_name", unique: true
+  end
+
   create_table "transport_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -89,19 +103,23 @@ ActiveRecord::Schema.define(version: 20170904081424) do
   create_table "transports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.timestamp "date"
     t.timestamp "departure_time"
+    t.timestamp "departure_confirm_time"
     t.timestamp "arrival_time"
-    t.integer "departure_bay"
+    t.timestamp "arrival_confirm_time"
+    t.bigint "departure_bay_id"
     t.string "departure_bay_name"
-    t.integer "arrival_bay"
+    t.bigint "arrival_bay_id"
     t.string "arrival_bay_name"
     t.bigint "car_id"
     t.bigint "user_id"
     t.bigint "item_id"
     t.bigint "transport_type_id"
+    t.bigint "transport_state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_id"], name: "index_transports_on_car_id"
     t.index ["item_id"], name: "index_transports_on_item_id"
+    t.index ["transport_state_id"], name: "index_transports_on_transport_state_id"
     t.index ["transport_type_id"], name: "index_transports_on_transport_type_id"
     t.index ["user_id"], name: "index_transports_on_user_id"
   end
@@ -111,10 +129,12 @@ ActiveRecord::Schema.define(version: 20170904081424) do
     t.string "cellular_phone"
     t.string "password_digest"
     t.bigint "company_id"
+    t.bigint "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cellular_phone"], name: "index_users_on_cellular_phone", unique: true
     t.index ["company_id"], name: "index_users_on_company_id"
+    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
   add_foreign_key "cars", "companies"
@@ -125,7 +145,9 @@ ActiveRecord::Schema.define(version: 20170904081424) do
   add_foreign_key "logins", "users"
   add_foreign_key "transports", "cars"
   add_foreign_key "transports", "items"
+  add_foreign_key "transports", "transport_states"
   add_foreign_key "transports", "transport_types"
   add_foreign_key "transports", "users"
   add_foreign_key "users", "companies"
+  add_foreign_key "users", "roles"
 end
