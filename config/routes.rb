@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :transports
   resources :transport_types
   resources :transport_states
+  resources :users
 
   post 'auth/login', to: 'authentication#authenticate'
   post 'signup', to: 'users#create'
