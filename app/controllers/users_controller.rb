@@ -5,18 +5,22 @@ class UsersController < ApplicationController
   # POST /signup
   def create
     @user = User.create!(user_params)
-    json_response(@user, :created)
+    data = { "user" => @user }
+    json_response(data, :created)
   end
 
   # GET /users
   def index
     @users = User.all
-    json_response(@users)
+    data = { "users" => @users }
+    #json_response(@users)
+    json_response(data)
   end
 
   # GET /users/:id
   def show
-    json_response(@user)
+    data = { "user" => @user }
+    json_response(data)
   end
 
   # PUT /users/:id

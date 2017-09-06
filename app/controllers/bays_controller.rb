@@ -4,18 +4,21 @@ class BaysController < ApplicationController
   # GET /bays
   def index
     @bays = Bay.all
-    json_response(@bays)
+    data = { "bays" => @bays }
+    json_response(data)
   end
 
   # POST /bays
   def create
     @bay = Bay.create!(bay_params)
-    json_response(@bay, :created)
+    data = { "bay" => @bay }
+    json_response(data, :created)
   end
 
   # GET /bays/:id
   def show
-    json_response(@bay)
+    data = { "bay" => @bay }
+    json_response(data)
   end
 
   # PUT /bays/:id

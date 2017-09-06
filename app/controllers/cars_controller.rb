@@ -4,18 +4,21 @@ class CarsController < ApplicationController
   # GET /cars
   def index
     @cars = Car.all
-    json_response(@cars)
+    data = { "cars" => @cars }
+    json_response(data)
   end
 
   # POST /cars
   def create
     @car = Car.create!(car_params)
-    json_response(@car, :created)
+    data = { "car" => @car }
+    json_response(data, :created)
   end
 
   # GET /cars/:id
   def show
-    json_response(@car)
+    data = { "car" => @car }
+    json_response(data)
   end
 
   # PUT /cars/:id

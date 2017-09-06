@@ -4,18 +4,21 @@ class ItemsController < ApplicationController
   # GET /items
   def index
     @items = Item.all
-    json_response(@items)
+    data = { "items" => @items }
+    json_response(data)
   end
 
   # POST /items
   def create
     @item = Item.create!(item_params)
-    json_response(@item, :created)
+    data = { "item" => @item }
+    json_response(data, :created)
   end
 
   # GET /items/:id
   def show
-    json_response(@item)
+    data = { "item" => @item }
+    json_response(data)
   end
 
   # PUT /items/:id
